@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if (white_player is none or black_player is none) and type != 'engine' %}
+    {% if not current_user.is_authenticated %}
+        <div class="message">Незарегистрированный пользователь не может принять игру.</div>
+    {% else %}
+        {% if type == 'fast' %}
+            <div class="message">Подождите, пока мы подберем вам соперника...</div>
+        {% else %}
+            <div class="message">Отправьте эту ссылку вашему сопернику: {{ url }}. Первый, кто пройдет по ней, сыграет с вами. </div>
+        {% endif %}
+    {% endif %}
+{% else %}
+    {% if role == 'black' %}
+        {% set board = board[::-1] %}
+    {% endif %}
+
+<div class="party">
+    <div class="game-info">
+        {% if end_game %}
+            <div class="end">{{ result }} • {{ reason }}</div>
+        {% else %}
+            <div class="end"></div>
+        {% endif %}
+        {% if white_player != none %}
+            <div>Белые: <a href="/profile/{{ white_player.id }}" class="user-link">{{ white_player.nick }}</a> {{ white_player.rating }}</div>
+        {% else %}
+            <div>Белые: Stockfish</div>
+        {% endif %}
+        {% if black_player != none %}
+            <div>Черные: <a href="/profile/{{ black_player.id }}" class="user-link">{{ black_player.nick }}</a> {{ black_player.rating }}</div>
+        {% else %}
+            <div>Черные: Stockfish</div>
+        {% endif %}
+        <div>{{ type|capitalize }}</div>
+        {% if end_game %}
+            <div class="analysis"><a href="../analysis/{{ id }}" class="analysis-link">Анализировать партию</a></div>
+        {% else %}
+            <div class="analysis"><a href="../analysis/{{ id }}" class="analysis-link"></a></div>
+        {% endif %}
+    </div>
+<table class="chess-board">
+    <tbody>
+        {% for row in range(7, -1, -1) %}
+            <tr>
+                {% for col in range(8) %}
+                    {% set cell = board[row * 8 + col] %}
+                    {% set color = cell['color'] %}
+                    {% set piece = cell['piece'] %}
+                    {% set name = cell['name'] %}
+                    <td class="cell"
+                            draggable="true"
+                            ondragstart="cell_start_drag(this.id, event)"
+                            ondragover="cell_drag_over(event)"
+                            ondrop="cell_drop(this.id, event)"
+                            onclick="cell_click(this.id, event)"
+                            style="background-color: {{ color }};"
+                            id="{{ name }}">
+                        <span class="cell-piece">{{ piece }}</span>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+</div>
+{% endif %}
+
+{% endblock %}

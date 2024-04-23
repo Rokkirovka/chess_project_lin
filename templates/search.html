@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search">
+<form action="/search" method="post" class="search-form">
+    <label for="nick">Введите ник игрока:</label>
+    <input type="text" id="nick" name="nick">
+    <button type="submit">Найти</button>
+</form>
+</div>
+<div class="users">
+{% if users %}
+    <p>Найденные игроки:</p>
+    <ul>
+    {% for user in users %}
+        <li style="list-style-type: none;"><a href="../profile/{{ user.id }}">{{ user.nick }}</a>
+    {% endfor %}
+    </ul>
+{% endif %}
+</div>
+{% endblock %}

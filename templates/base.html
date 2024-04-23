@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <title>{{title}}</title>
+</head>
+<body>
+<ul class="menu">
+    <li class="menu-row"><a class="menu-item" href="/">Chess</a></li>
+    {% if current_user.is_authenticated %}
+        <li class="menu-row"><span class="menu-item">{{ current_user.nick }}</span></li>
+        <li class="menu-row"> <a class="menu-item" href="/profile/{{ current_user.id }}">Профиль</a></li>
+        <li class="menu-row"><a class="menu-item" href="/logout">Выйти</a></li>
+        <li class="menu-row"><a class="menu-item" href="/analysis">Анализ</a></li>
+        <li class="menu-row"><a class="menu-item" href="/search">Поиск игрока</a></li>
+    {% else %}
+        <li class="menu-row"><span class="menu-item">Гость</span></li>
+        <li class="menu-row"><a class="menu-item" href="/analysis">Анализ</a></li>
+        <li class="menu-row"><a class="menu-item" href="/search">Поиск игрока</a></li>
+    {% endif %}
+</ul>
+{% block content %}{% endblock %}
+</body>
+</html>

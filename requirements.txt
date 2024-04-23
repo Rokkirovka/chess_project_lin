@@ -1,0 +1,12 @@
+chess
+flask
+flask_login
+flask_socketio
+flask_restful
+werkzeug
+flask_login
+sqlalchemy_serializer
+sqlalchemy
+wtforms
+flask_wtf
+python-dotenv

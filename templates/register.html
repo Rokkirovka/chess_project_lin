@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home">
+<form class="home-items" action="" method="post">
+    <h1 class="form-item">Регистрация</h1>
+    {{ form.hidden_tag() }}
+    <p>
+        <span class="form-item">{{ form.email.label }}</span><br>
+        {{ form.email(class="form-control", type="email") }}<br>
+        {% for error in form.email.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    <p>
+        <span class="form-item">{{ form.password.label }}</span><br>
+        {{ form.password(class="form-control", type="password") }}<br>
+        {% for error in form.password.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    <p>
+        <span class="form-item">{{ form.password_again.label }}</span><br>
+        {{ form.password_again(class="form-control", type="password") }}<br>
+        {% for error in form.password_again.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    <p>
+        <span class="form-item">{{ form.nick.label }}</span><br>
+        {{ form.nick(class="form-control") }}<br>
+        {% for error in form.nick.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    <br>
+    {{ form.submit(type="submit", class="btn form-button") }}<br>
+    <span class="form-item">{{message}}</span>
+</form>
+</div>
+{% endblock %}

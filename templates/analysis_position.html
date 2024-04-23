@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="party">
+    <div class="score">
+        <div class="rate">{{ score }}</div>
+        <div class="progres-bar">
+            <div class="progres-bar-completed" style="height: {{ rate }}%;"></div>
+        </div>
+    </div>
+
+<table class="chess-board">
+    <tbody>
+        {% for row in range(7, -1, -1) %}
+            <tr>
+                {% for col in range(8) %}
+                    {% set cell = board[row * 8 + col] %}
+                    {% set color = cell['color'] %}
+                    {% set piece = cell['piece'] %}
+                    {% set name = cell['name'] %}
+                    <td class="cell"
+                            draggable="true"
+                            ondragstart="cell_start_drag(this.id)"
+                            ondragover="cell_drag_over(event)"
+                            ondrop="cell_drop(this.id)"
+                            onclick="cell_click(this.id)"
+                            style="background-color: {{ color }};"
+                            id="{{ name }}">
+                        <span class="cell-piece">{{ piece }}</span>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+</div>
+
+{% endblock %}

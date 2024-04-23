@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="party">
+    <div class="game-info">
+        <div class="end">{{ result }} • {{ reason }}</div>
+        <div>Белые: <a href="/profile/{{ white_player.id }}" class="user-link">{{ white_player.nick }}</a> {{ white_player.rating }}</div>
+        <div>Черные: <a href="/profile/{{ black_player.id }}" class="user-link">{{ black_player.nick }}</a> {{ black_player.rating }}</div>
+        <div style="overflow-y: scroll; height: 10vh;">
+        <table class="moves-table">
+            <tbody class="moves-table-body">
+                {% for move in moves %}
+                    <tr>
+                        <td>
+                            {{ loop.index }}
+                        </td>
+                        <td>
+                            <span class="move" id="{{ loop.index0 * 2 + 1}}" onclick="move_click(this.id)">{{ move[0] }}</span>
+                        </td>
+                        <td>
+                            <span class="move" id="{{ loop.index0 * 2 + 2 }}" onclick="move_click(this.id)">{{ move[1] }}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="score">
+        <div class="rate">{{ score }}</div>
+        <div class="progres-bar">
+            <div class="progres-bar-completed" style="height: {{ rate }}%;"></div>
+        </div>
+    </div>
+
+<table class="chess-board">
+    <tbody>
+        {% for row in range(7, -1, -1) %}
+            <tr>
+                {% for col in range(8) %}
+                    {% set cell = board[row * 8 + col] %}
+                    {% set color = cell['color'] %}
+                    {% set piece = cell['piece'] %}
+                    {% set name = cell['name'] %}
+                    <td class="cell"
+                            style="background-color: {{ color }};"
+                            id="{{ name }}">
+                        <span class="cell-piece">{{ piece }}</span>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+</div>
+
+{% endblock %}
