@@ -7,7 +7,7 @@ from data.analyzes import Analysis
 
 def engine_move(fen, level):
     board = ImprovedBoard(fen)
-    engine = chess.engine.SimpleEngine.popen_uci("data/stockfish/stockfish-ubuntu-x86-64-sse41-popcnt")
+    engine = chess.engine.SimpleEngine.popen_uci("data/stockfish/stockfish-ubuntu-x86-64-avx2")
     engine.configure({"Skill Level": level})
     result = engine.play(board, chess.engine.Limit(time=0.3))
     engine.quit()
@@ -19,7 +19,7 @@ def engine_analysis(fen, time=0.1, depth=5):
     analysis = db_sess.query(Analysis).filter(Analysis.fen == str(fen)).first()
     if not analysis:
         board = ImprovedBoard(fen)
-        engine = chess.engine.SimpleEngine.popen_uci("data/stockfish/stockfish-ubuntu-x86-64-sse41-popcnt")
+        engine = chess.engine.SimpleEngine.popen_uci("data/stockfish/stockfish-ubuntu-x86-64-avx2")
         info = engine.analyse(board, chess.engine.Limit(time=time, depth=depth))
         engine.quit()
         analysis = Analysis()
